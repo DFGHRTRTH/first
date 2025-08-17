@@ -1,0 +1,28 @@
+﻿<html>
+    <head>
+        <title>Білаш Сергій 302 - ТН Лабораторна робота №2_1</title>
+        <meta name="keywords" />
+        <meta name="description" />
+    </head>
+
+    <body>
+        <h1>
+            <img src = "img/pc1.png" alt = "Картинка 1" width = "300" height = "300">
+            <img src = "img/pc2.png" alt = "Картинка 2" width = "300" height = "300">
+            <img src = "img/pc3.png" alt = "Картинка 3" width = "300" height = "300">
+
+            <script>
+                function handleClick(event) {
+                    console.log(event.target.width);
+                }
+
+                images = document.querySelectorAll('img');
+
+                images.forEach(image => {
+                    image.onclick = handleClick;
+                });
+            </script>
+        </h1>
+    </body>
+
+</html>
