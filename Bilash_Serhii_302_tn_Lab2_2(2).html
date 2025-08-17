@@ -1,0 +1,43 @@
+﻿<html>
+    <head>
+        <title>Білаш Сергій 302 - ТН Лабораторна робота №2_2</title>
+        <meta name="keywords" />
+        <meta name="description" />
+    </head>
+
+    <body>
+        <h1>
+            <a href="https://en.cppreference.com/w/cpp" target = "_blanc" title = "Cppreference" id = "cppref"> Документація з С++</a>
+        </h1>
+        <h1>
+            <a href="https://en.cppreference.com/w/c" target = "_blanc" title="Creference" id = "cref"> Документація з С</a>
+        </h1>
+        <h1>
+            <a href="https://www.chess.com/" target = "_blanc" title = "chess" id = "chesscom"> Шахи</a>
+        </h1>
+
+        <script>
+            function handleMouseEnter(event) {
+                document.title = event.target.href; // Встановлюємо href посилання як title сторінки
+            }
+
+            function handleMouseLeave(event) {
+                document.title = 'Марков Іван 302 - ТН Лабораторна робота №2_2';
+            }
+
+            link1 = document.getElementById("cppref");
+            link2 = document.getElementById("cref");
+            link3 = document.getElementById("chesscom");
+
+            link1.addEventListener('mouseenter', handleMouseEnter);
+            link1.addEventListener('mouseleave', handleMouseLeave);
+
+            link2.addEventListener('mouseenter', handleMouseEnter);
+            link2.addEventListener('mouseleave', handleMouseLeave);
+
+            link3.addEventListener('mouseenter', handleMouseEnter);
+            link3.addEventListener('mouseleave', handleMouseLeave);
+        </script>
+    </body>
+
+</html>
