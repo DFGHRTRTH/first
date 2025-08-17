@@ -1,0 +1,36 @@
+﻿<html>
+    <head>
+        <title>Білаш Сергій 302 - ТН Лабораторна робота №2_3</title>
+        <meta name="keywords" />
+        <meta name="description" />
+    </head>
+
+    <body>
+        <h1>
+            <input type = "text" id = "input1" placeholder = "Введіть текст 1">
+        </h1>
+        <h1>
+            <input type = "text" id = "input2" placeholder = "Введіть текст 2">
+        </h1>
+        <h1>
+            <input type = "text" id = "input3" placeholder = "Введіть текст 3">
+        </h1>
+
+        <p id="demo"></p>
+        <script>
+            function displayValue(event) {
+                inputValue = event.target.value;
+                document.getElementById('demo').textContent = inputValue;
+            }
+
+            input1 = document.getElementById("input1");
+            input2 = document.getElementById("input2");
+            input3 = document.getElementById("input3");
+
+            input1.addEventListener('click', displayValue);
+            input2.addEventListener('click', displayValue);
+            input3.addEventListener('click', displayValue);
+        </script>
+    </body>
+
+</html>
