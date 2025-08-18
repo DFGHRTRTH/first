@@ -1,0 +1,38 @@
+﻿<html>
+    <head>
+        <title>Білаш Сергій 302 - ТН Лабораторна робота №2_5</title>
+        <meta name="keywords" />
+        <meta name="description" />
+    </head>
+
+    <body>
+        <p> Двадцять п'ять</p>
+        <p> П'ятдесят сім</p>
+        <p> Сорок три</p>
+
+        <script>
+            const numberMap = {
+                "двадцять п'ять": 25,
+                "п'ятдесят сім": 57,
+                "сорок три": 43
+            };
+
+            function handleClick(event) {
+                text = event.target.textContent.trim().toLowerCase();
+                if (numberMap[text] !== undefined) {
+                    square = Math.pow(numberMap[text], 2);
+                    event.target.textContent = `Квадрат числа ${numberMap[text]}: ${square}`;
+                } else {
+                    event.target.textContent = "Невідоме число";
+                }
+            }
+
+            paragraphs = document.querySelectorAll('p');
+
+            paragraphs.forEach(paragraph => {
+                paragraph.addEventListener('click', handleClick);
+            });
+        </script>
+    </body>
+
+</html>
