@@ -1,0 +1,35 @@
+﻿<html>
+    <head>
+        <title>Білаш Сергій 302 - ТН Лабораторна робота №4_3</title>
+        <meta name="keywords" />
+        <meta name="description" />
+    </head>
+
+    <body>
+        <h1>
+            <script>
+                document.write("Завдання №3. Результат в консолі<br>");
+                let n = prompt("Завдання №3. Введіть параметр n для третього завдання ", '');
+    
+                n = Math.abs(Number(n));
+
+                function print(n) {
+                    for (let i = 1; i <= n; ++i) {
+                        if (i % 3 === 0 && i % 5 !== 0) {
+                            console.log("fizz ");
+                        } else if (i % 3 !== 0 && i % 5 === 0) {
+                            console.log("buzz ");
+                        } else if (i % 3 === 0 && i % 5 === 0) {
+                            console.log("fizzbuzz ");
+                        } else {
+                            console.log(i + " ");
+                        }
+                    }
+                }
+
+                print(n);
+            </script>
+        </h1>
+    </body>
+
+</html>
