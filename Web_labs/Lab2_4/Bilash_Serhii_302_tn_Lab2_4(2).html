@@ -1,0 +1,27 @@
+﻿<html>
+    <head>
+        <title>Білаш Сергій 302 - ТН Лабораторна робота №4_2</title>
+        <meta name="keywords" />
+        <meta name="description" />
+    </head>
+
+    <body>
+        <h1>
+            <script>
+                document.write("Завдання №2<br>");
+                let s = prompt("Завдання №2. Введіть параметр side для функції perimeter ", '');
+                let c = prompt("Завдання №2. Введіть параметр count для функції perimeter ", '');
+
+                s = Math.abs(Number(s));
+                c = Math.abs(Number(c));
+
+                function perimeter(side, count) {
+                    return side * count;
+                }
+
+                document.write("Завдання №1. Результат функції perimeter: " + perimeter(s, c) + "<br>");
+            </script>
+        </h1>
+    </body>
+
+</html>
