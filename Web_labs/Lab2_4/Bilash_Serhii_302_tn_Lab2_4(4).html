@@ -1,0 +1,29 @@
+﻿<html>
+    <head>
+        <title>Білаш Сергій 302 - ТН Лабораторна робота №4_4</title>
+        <meta name="keywords" />
+        <meta name="description" />
+    </head>
+
+    <body>
+        <h1>
+            <script>
+                document.write("Завдання №4<br>");
+                let a = prompt("Завдання №4. Введіть параметр a для функції Calculate ", '');
+                let b = prompt("Завдання №4. Введіть параметр b для функції Calculate ", '');
+                let c = prompt("Завдання №4. Введіть параметр c для функції Calculate ", '');
+    
+                a = Math.abs(Number(a));
+                b = Math.abs(Number(b));
+                c = Math.abs(Number(c));
+
+                function Calculate(a, b, c) {
+                    return (a + b + c) / 3;
+                }
+
+                document.write("Результат функції Calculate: " + Calculate(a,b,c) + "<br>");
+            </script>
+        </h1>
+    </body>
+
+</html>
