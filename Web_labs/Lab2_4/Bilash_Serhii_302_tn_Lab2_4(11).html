@@ -1,0 +1,46 @@
+﻿<html>
+    <head>
+        <title>Білаш Сергій 302 - ТН Лабораторна робота №4_11</title>
+        <meta name="keywords" />
+        <meta name="description" />
+    </head>
+
+    <body>
+        <h1>
+            <script>
+                document.write("Завдання №11<br>");
+
+                let n = 0;
+                do {
+                    n = prompt("Завдання №11. Введіть параметр N для розміру масиву ", '');
+                } while (n == 0 || isNaN(n));
+    
+                n = Math.abs(Number(n));
+
+                let array = [];
+                for (let i = 0; i < n; i++) {
+                    array.push(Math.floor(Math.random() * 100) - 50);
+                }
+
+                document.write("Масив: " + array + "<br>");
+
+                function removeDuplicates(arr) {
+                    let seen = new Set();
+                    let result = [];
+    
+                    for (let num of arr) {
+                        if (!seen.has(num)) {
+                            result.push(num);
+                            seen.add(num);
+                        }
+                    }
+                    return result;
+                }
+
+                let new_arr = removeDuplicates(array);
+                document.write("Змінений масив: " + new_arr + "<br>");
+            </script>
+        </h1>
+    </body>
+
+</html>
