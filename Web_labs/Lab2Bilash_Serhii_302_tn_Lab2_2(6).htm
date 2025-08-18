@@ -1,0 +1,46 @@
+﻿<html>
+    <head>
+        <title>Білаш Сергій 302 - ТН Лабораторна робота №2_6</title>
+        <meta name="keywords" />
+        <meta name="description" />
+    
+        <style>
+            .first-div, .second-div, .third-div {
+                height: 300px;
+                border: 1px solid black;
+                text-align: left;
+                font-family: Arial;
+                font-size: 32pt;
+                margin: 50px;
+            }
+        </style>
+    </head>
+
+    <body>
+        <div class = "first-div"> Перший div </div>
+        <div class = "second-div"> Другий div </div>
+        <div class = "third-div"> Третій div </div>
+
+        <script>
+            divs = document.querySelectorAll("div");
+
+            function paintRed(event) {
+                event.target.style.backgroundColor = 'red';
+                event.target.removeEventListener('click', paintRed);
+                event.target.addEventListener('click', paintGreen);
+            }
+
+            function paintGreen(event) {
+                event.target.style.backgroundColor = 'green';
+                event.target.removeEventListener('click', paintGreen);
+                event.target.addEventListener('click', paintRed);
+            }
+
+            divs.forEach(function(div) {
+                div.addEventListener('click', paintRed);
+            });
+        </script>
+
+    </body>
+
+</html>
