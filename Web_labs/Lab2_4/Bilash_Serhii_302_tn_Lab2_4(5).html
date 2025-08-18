@@ -1,0 +1,43 @@
+﻿<html>
+    <head>
+        <title>Білаш Сергій 302 - ТН Лабораторна робота №4_5</title>
+        <meta name="keywords" />
+        <meta name="description" />
+    </head>
+
+    <body>
+        <h1>
+            <script>
+                document.write("Завдання №5<br>");
+                let n = prompt("Завдання №5. Введіть параметр n для функціїї isDivisible ", '');
+                let x = prompt("Завдання №5. Введіть параметр x для функціїї isDivisible ", '');
+                let y = prompt("Завдання №5. Введіть параметр y для функціїї isDivisible ", '');
+    
+                n = Math.abs(Number(n));
+                x = Math.abs(Number(x));
+                y = Math.abs(Number(y));
+
+                function isDivisible_1(n, x, y) {
+                    if (n % x === 0 && n % y === 0) {
+                        return true;
+                    } else {
+                        return false;
+                    }
+                }
+
+                function isDivisible_2(n, x, y) {
+                    return (n % x === 0 && n % y === 0) ? true : false;
+                }
+
+                function isDivisible_3(n, x, y) {
+                    return (n % x === 0 && n % y === 0);
+                }
+
+                document.write("Результат функції isDivisible_1: " + isDivisible_1(n,x,y) + "<br>");
+                document.write("Результат функції isDivisible_2: " + isDivisible_2(n,x,y) + "<br>");
+                document.write("Результат функції isDivisible_3: " + isDivisible_3(n,x,y) + "<br>");
+            </script>
+        </h1>
+    </body>
+
+</html>
