@@ -1,0 +1,35 @@
+﻿<html>
+    <head>
+        <title>Білаш Сергій 302 - ТН Лабораторна робота №4_10</title>
+        <meta name="keywords" />
+        <meta name="description" />
+    </head>
+
+    <body>
+        <h1>
+            <script>
+                document.write("Завдання №10<br>");
+				function Reverse_Arr(arr) {
+					reversedArr = arr.reverse();
+					
+					for (let i = 0; i < reversedArr.length; i++) {
+						if (Number.isFinite(reversedArr[i])) {
+							reversedArr[i] = reversedArr[i] ** 2;
+						}
+					}
+					
+					return reversedArr;
+				}
+				
+				let arr1 = [1,2,3,"hello", "Sun", 9];
+				let arr2 = [5,6,7,8,9,10];
+				
+				document.write("Результат функції для першого масиву: " + Reverse_Arr(arr1) + "<br>");
+				document.write("Результат функції для другого масиву: " + Reverse_Arr(arr2) + "<br>");
+				
+                
+            </script>
+        </h1>
+    </body>
+
+</html>
