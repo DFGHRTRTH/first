@@ -1,0 +1,45 @@
+﻿<html>
+    <head>
+        <title>Білаш Сергій 302 - ТН Лабораторна робота №2_4</title>
+        <meta name="keywords" />
+        <meta name="description" />
+    </head>
+
+    <body>
+        <h1>
+            <input type = "text" placeholder = "Введіть текст 1">
+        </h1>
+        <h1>
+            <input type = "text" placeholder = "Введіть текст 2">
+        </h1>
+        <h1>
+            <input type = "text" placeholder = "Введіть текст 3">
+        </h1>
+
+        <p id="demo"></p>
+        <script>
+            function handleClick(event) {
+                input = event.target;
+                inputValue = input.value;
+
+                if (!input.hasBeenClicked) {
+                    input.hasBeenClicked = 1;
+                } else {
+                    if (input.hasBeenClicked === 1) {
+                        console.log(inputValue);
+                        input.hasBeenClicked = 2;
+                    } else if (input.hasBeenClicked === 2) {
+                        alert(inputValue);
+                    }
+                }
+             }
+
+            inputs = document.querySelectorAll('input');
+
+            inputs.forEach(input => {
+                input.addEventListener('click', handleClick);
+            });
+        </script>
+    </body>
+
+</html>
