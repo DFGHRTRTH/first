@@ -1,0 +1,61 @@
+﻿<html>
+    <head>
+        <title>Білаш Сергій 302 - ТН Лабораторна робота №4_8</title>
+        <meta name="keywords" />
+        <meta name="description" />
+    </head>
+
+    <body>
+        <h1>
+            <script>
+                document.write("Завдання №8<br>");
+
+                let num1 = parseFloat(prompt("Завдання №8. Введіть перше число:"));
+                let num2 = parseFloat(prompt("Завдання №8. Введіть друге число:"));
+
+                function add(a, b) {
+                    document.write("Результат додавання: " + (a + b) + "<br>");
+                }
+
+                function sub(a, b) {
+                    document.write("Результат віднімання: " + (a - b) + "<br>");
+                }
+
+                function mul(a, b) {
+                    document.write("Результат множення: " + (a * b) + "<br>");
+                }
+
+                function div(a, b) {
+                    if (b === 0) {
+                        document.write("Помилка: Ділення на нуль неможливе.<br>");
+                    } else {
+                        document.write("Результат ділення: " + (a / b) + "<br>");
+                    }
+                }
+
+                let operation = 0;
+                do {
+                    operation = prompt("Оберіть операцію (1 – додавання, 2 – віднімання, 3 – множення, 4 – ділення): ");
+                    operation = Number(operation);
+
+                    switch (operation) {
+                        case 1:
+                            add(num1, num2);
+                            break;
+                        case 2:
+                            sub(num1, num2);
+                            break;
+                        case 3:
+                            mul(num1, num2);
+                            break;
+                        case 4:
+                            div(num1, num2);
+                            break;
+                        default: break;
+                    }
+                } while (operation !== 1 && operation !== 2 && operation !== 3 && operation !== 4);
+            </script>
+        </h1>
+    </body>
+
+</html>
