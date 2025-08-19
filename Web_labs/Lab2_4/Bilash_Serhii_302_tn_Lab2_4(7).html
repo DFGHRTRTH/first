@@ -1,0 +1,44 @@
+﻿<html>
+    <head>
+        <title>Білаш Сергій 302 - ТН Лабораторна робота №4_7</title>
+        <meta name="keywords" />
+        <meta name="description" />
+    </head>
+
+    <body>
+        <h1>
+            <script>
+                document.write("Завдання №7<br>");
+    
+                let rows = 5;
+                let cols = 5;
+
+                let array = [];
+                for (let i = 0; i < rows; i++) {
+                    let row = [];
+                    for (let j = 0; j < cols; j++) {
+                        row.push(Math.floor(Math.random() * 201) - 100);
+                    }
+                    array.push(row);
+                }
+
+ 
+                document.write("Початковий масив:<br>");
+                for (let i = 0; i < rows; ++i) {
+                    document.write(array[i].join(", ") + "<br>");
+                }
+
+                for (let i = 0; i < rows; ++i) {
+                    array[i][i] = (array[i][i] < 0) ? 0 : array[i][i];
+                    array[i][i] = (array[i][i] > 0) ? 1 : array[i][i];
+                }
+
+                document.write("Масив після заміни на головній діагоналі:<br>");
+                for (let i = 0; i < rows; ++i) {
+                    document.write(array[i].join(", ") + "<br>");
+                }
+            </script>
+        </h1>
+    </body>
+
+</html>
