@@ -1,0 +1,50 @@
+﻿<html>
+    <head>
+        <title>Білаш Сергій 302 - ТН Лабораторна робота №4_9</title>
+        <meta name="keywords" />
+        <meta name="description" />
+    </head>
+
+    <body>
+        <h1>
+            <script>
+                document.write("Завдання №9<br>");
+                let n = prompt("Завдання №9. Введіть число n ", '');
+
+                n = Number(n);
+    
+                function checkNumber(num) {
+                    if (num > 0) {
+                        document.write("Число " + num + " є позитивним." + "<br>");
+                    } else if (num < 0) {
+                        document.write("Число " + num + " є негативним." + "<br>");
+                    } else {
+                        document.write("Число " + num + " є нулем." + "<br>");
+                    }
+
+                    function isPrime(n) {
+                        if (n <= 1) { return false; }
+                        for (let i = 2; i <= Math.sqrt(n); ++i) {
+                            if (n % i === 0) { return false; }
+                        }
+                        return true;
+                    }
+
+                    if (isPrime(num)) {
+                        document.write("Число " + num + " є простим." + "<br>");
+                    } else {
+                        document.write("Число " + num + " не є простим." + "<br>");
+                    }
+
+                    if (num !== 0 && num % 2 === 0 && num % 5 === 0 && num % 3 === 0 && num % 6 === 0 && num % 9 === 0) {
+                         document.write("Число " + num + " ділиться на 2 5 3 6 9 без залишку." + "<br>");
+                    } else {
+                        document.write("Число " + num + " не ділиться на 2 5 3 6 9 без залишку." + "<br>");
+                    }
+                }
+                checkNumber(n);
+            </script>
+        </h1>
+    </body>
+
+</html>
