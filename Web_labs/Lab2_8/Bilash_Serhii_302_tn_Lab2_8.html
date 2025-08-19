@@ -1,0 +1,326 @@
+﻿<html>
+    <head>
+        <title>Білаш Сергій 302 - ТН Лабораторна робота №8</title>
+        <meta name="keywords" />
+        <meta name="description" />
+
+        <style>
+            body {
+                font-family: Arial, sans-serif;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                height: 100vh;
+                margin: 0;
+                background-color: #f5f5f5;
+                flex-direction: column;
+            }
+
+            #start-btn, #restart-btn {
+                padding: 10px 20px;
+                font-size: 20px;
+                background-color: #4CAF50;
+                color: white;
+                border: none;
+                cursor: pointer;
+                margin: 10px;
+            }
+
+            #game {
+                display: none;
+                text-align: center;
+            }
+
+            #timer {
+                font-size: 30px;
+                margin-bottom: 20px;
+            }
+
+            .digit {
+                margin: 5px;
+                display: inline-block;
+                cursor: pointer;
+                font-size: 24px;
+                transition: transform 0.2s ease;
+                padding: 10px;
+                width: 50px;
+                height: 50px;
+                text-align: center;
+                line-height: 50px;
+                border-radius: 5px;
+                background-color: #ecf0f1;
+            }
+
+            .highlight {
+                color: #f39c12;
+                font-weight: bold;
+                background-color: #f39c12;
+                color: white;
+            }
+
+            .incorrect {
+                color: red;
+            }
+
+            .digit-container {
+                margin-top: 20px;
+                display: grid;
+                grid-template-columns: repeat(5, 1fr);
+                grid-gap: 10px;
+                justify-items: center;
+            }
+
+            .digit.selected {
+                background-color: #3498db;
+                color: white;
+            }
+
+            #result {
+                font-size: 20px;
+                margin-top: 20px;
+            }
+
+            #max-streak {
+                font-size: 24px;
+                margin-top: 20px;
+                font-weight: bold;
+                color: #2ecc71;
+            }
+
+            table {
+                margin-top: 20px;
+                width: 80%;
+                border-collapse: collapse;
+                text-align: center;
+            }
+
+            table, th, td {
+                border: 1px solid black;
+            }
+
+            th, td {
+                padding: 10px;
+            }
+
+            .best-score {
+                background-color: #f39c12;
+            }
+        </style>
+
+    </head>
+
+
+    <body>
+        <div id="start-screen">
+            <button id="start-btn">Почати грати</button>
+        </div>
+
+        <div id="game">
+            <div id="timer">60</div>
+            <div id="max-streak">Максимальна серія: 0</div>
+            <div class="digit-container" id="game-field"></div>
+            <button id="restart-btn" style="display: none;">Почати з початку</button>
+            <div id="result"></div>
+        </div>
+
+        <div id="stats-container" style="display: none;">
+            <table id="stats-table">
+                <thead>
+                    <tr>
+                        <th>Номер гри</th>
+                        <th>Час</th>
+                        <th>Результат</th>
+                        <th>Макс. серія</th>
+                    </tr>
+                </thead>
+                <tbody id="stats-body"></tbody>
+            </table>
+        </div>
+
+        <script>
+        let startBtn = document.getElementById('start-btn');
+        let gameScreen = document.getElementById('game');
+        let gameField = document.getElementById('game-field');
+        let timerDisplay = document.getElementById('timer');
+        let restartBtn = document.getElementById('restart-btn');
+        let startScreen = document.getElementById('start-screen');
+        let resultDisplay = document.getElementById('result');
+        let maxStreakDisplay = document.getElementById('max-streak');
+        let statsTable = document.getElementById('stats-body');
+
+        let sequence = [];
+        let playerSequence = [];
+        let timer;
+        let timeLeft = 60;
+        let gameStarted = false;
+        let gameNumber = 0;
+        let currentStreak = 0;
+        let maxStreak = 0;
+
+        function randomColor() {
+            const letters = '0123456789ABCDEF';
+            let color = '#';
+            for (let i = 0; i < 6; i++) {
+                color += letters[Math.floor(Math.random() * 16)];
+            }
+            return color;
+        }
+
+        function randomFontSize() {
+            const sizes = ['24px', '30px', '36px', '40px', '48px'];
+            return sizes[Math.floor(Math.random() * sizes.length)];
+        }
+
+        function generateGameField() {
+            gameField.innerHTML = '';
+            for (let i = 1; i <= 20; i++) {
+                let digit = document.createElement('div');
+                digit.classList.add('digit');
+                digit.textContent = i;
+                digit.style.fontSize = randomFontSize();
+                digit.style.color = randomColor();
+                digit.addEventListener('click', () => playerChoose(i, digit));
+                gameField.appendChild(digit);
+            }
+        }
+
+        function startTimer() {
+            timer = setInterval(() => {
+                if (timeLeft <= 0) {
+                    clearInterval(timer);
+                    endGame();
+                } else {
+                    timeLeft--;
+                    timerDisplay.textContent = timeLeft;
+                }
+            }, 1000);
+        }
+
+        function startGame() {
+            document.getElementById('stats-container').style.display = 'none';
+            gameNumber++;
+            sequence = [];
+            playerSequence = [];
+            currentStreak = 0;
+            maxStreak = 0;
+            timeLeft = 60;
+            gameStarted = true;
+            generateGameField();
+            startTimer();
+            startScreen.style.display = 'none';
+            gameScreen.style.display = 'block';
+            restartBtn.style.display = 'none';
+            resultDisplay.innerHTML = '';
+            maxStreakDisplay.textContent = `Максимальна серія: ${maxStreak}`; // Отображаем максимальную серию
+            nextDigitInSequence();
+        }
+
+        function nextDigitInSequence() {
+            let nextDigit = Math.floor(Math.random() * 20) + 1;
+            sequence.push(nextDigit);
+            highlightSequence();
+        }
+
+        function highlightSequence() {
+            let idx = 0;
+            let interval = setInterval(() => {
+                let digits = document.querySelectorAll('.digit');
+                digits[sequence[idx] - 1].classList.add('highlight');
+                setTimeout(() => {
+                    digits[sequence[idx] - 1].classList.remove('highlight');
+                    idx++;
+                    if (idx >= sequence.length) {
+                        clearInterval(interval);
+                    }
+                }, 500);
+            }, 1000);
+        }
+
+        function playerChoose(digit, element) {
+            if (!gameStarted) return;
+
+            element.classList.add('selected');
+
+            playerSequence.push(digit);
+
+            if (digit !== sequence[playerSequence.length - 1]) {
+                alert('Не вірна цифра');
+                playerSequence = [];
+                currentStreak = 0; 
+                resetSelectedDigits();
+                highlightSequence();
+                return;
+            }
+
+            currentStreak++;
+
+            if (currentStreak > maxStreak) {
+                maxStreak = currentStreak;
+                maxStreakDisplay.textContent = `Максимальна серія: ${maxStreak}`;
+            }
+
+            if (playerSequence.length === sequence.length) {
+                playerSequence = [];
+                currentStreak = 0;
+                nextDigitInSequence();
+            }
+
+            setTimeout(() => {
+                element.classList.remove('selected');
+            }, 500);
+        }
+
+        function resetSelectedDigits() {
+            let digits = document.querySelectorAll('.digit');
+            digits.forEach(digit => {
+                digit.classList.remove('selected');
+            });
+        }
+
+        function endGame() {
+            gameStarted = false;
+            alert('Час вийшов або ви успішно завершили гру!');
+            resultDisplay.innerHTML = `Вітаємо, ви успішно завершили гру! Максимальна серія: ${maxStreak}`;
+            updateStats();
+            restartBtn.style.display = 'block';
+            document.getElementById('stats-container').style.display = 'block';
+        }
+
+        function updateStats() {
+            const timeTaken = 60 - timeLeft;
+            const resultRow = document.createElement('tr');
+            resultRow.innerHTML = `
+                <td>${gameNumber}</td>
+                <td>${timeTaken} сек</td>
+                <td>${timeLeft <= 0 ? 'Час вийшов' : 'Перемога'}</td>
+                <td>${maxStreak}</td>
+            `;
+            statsTable.appendChild(resultRow);
+            highlightBestScore();
+        }
+
+        function highlightBestScore() {
+            const rows = statsTable.getElementsByTagName('tr');
+            let bestScore = 0;
+            for (let i = 1; i < rows.length; i++) {
+                const scoreCell = rows[i].cells[3];
+                const score = parseInt(scoreCell.textContent);
+                if (score > bestScore) {
+                    bestScore = score;
+                }
+            }
+            for (let i = 1; i < rows.length; i++) {
+                const scoreCell = rows[i].cells[3];
+                const score = parseInt(scoreCell.textContent);
+                if (score === bestScore) {
+                    rows[i].classList.add('best-score');
+                }
+            }
+        }
+
+        restartBtn.addEventListener('click', () => startGame());
+        startBtn.addEventListener('click', () => startGame());
+        </script>
+    </body>
+
+</html>
