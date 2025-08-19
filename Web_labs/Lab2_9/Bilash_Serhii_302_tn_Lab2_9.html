@@ -1,0 +1,245 @@
+﻿<html>
+	<head>
+		<title>Білаш Сергій 302 - ТН Лабораторна робота №9</title>
+		<meta name="keywords" />
+		<meta name="description" />
+
+		<style>
+			body {
+				font-family: Arial, sans-serif;
+				text-align: center;
+				background-color: #f5f5f5;
+			}
+
+			.board {
+				display: grid;
+				grid-template-columns: repeat(5, 1fr);
+				grid-template-rows: repeat(2, 1fr);
+				gap: 10px;
+				width: 500px;
+				margin: 20px auto;
+			}
+
+			.square {
+				width: 90px;
+				height: 90px;
+				border: 1px solid #ccc;
+				cursor: grab;
+			}
+
+			.square img, .current-image img {
+				width: 100%;
+				height: 100%;
+				object-fit: cover;
+			}
+
+			.current-image {
+				width: 100px;
+				height: 100px;
+				margin: 20px auto;
+				border: 2px solid #000;
+				background-color: white;
+			}
+
+			button {
+				padding: 10px 20px;
+				font-size: 16px;
+				margin: 5px;
+				cursor: pointer;
+			}
+
+			.hidden {
+				visibility: hidden;
+			}
+
+			#timer {
+				font-size: 20px;
+				margin-top: 10px;
+				color: #333;
+			}
+
+			.category-buttons {
+				margin-top: 20px;
+			}
+
+			#results-table {
+				margin: 30px auto;
+				width: 60%;
+				border-collapse: collapse;
+			}
+
+			#results-table th, #results-table td {
+				border: 1px solid #aaa;
+				padding: 10px;
+			}
+
+			#results-table th {
+				background-color: #ddd;
+			}
+		</style>
+	</head>
+
+	<body>
+		<h1>Моя друга гра</h1>
+
+		<div class="category-buttons" id="category-buttons">
+			<p>Оберіть категорію:</p>
+			<button onclick="startGame('circles')">Круги</button>
+			<button onclick="startGame('squares')">Квадрати</button>
+			<button onclick="startGame('triangles')">Трикутники</button>
+		</div>
+
+		<div id="game-area" style="display: none;">
+			<h3>Знайди це зображення (перетягни його сюди):</h3>
+			<div class="current-image" id="current-image" ondrop="handleDrop(event)" ondragover="allowDrop(event)"></div>
+			<div class="board" id="game-board"></div>
+			<div id="timer">Час: 0 секунд</div>
+			<button onclick="returnToCategorySelect()">Почати з початку</button>
+		</div>
+
+		<h2>Результати</h2>
+		<table id="results-table">
+			<thead>
+				<tr>
+					<th>Категорія</th>
+					<th>Час (секунд)</th>
+				</tr>
+			</thead>
+			<tbody id="results-body"></tbody>
+		</table>
+
+		<script>
+			const board = document.getElementById('game-board');
+			const currentImage = document.getElementById('current-image');
+			const timerDisplay = document.getElementById('timer');
+			const gameArea = document.getElementById('game-area');
+			const categoryButtons = document.getElementById('category-buttons');
+			const resultsBody = document.getElementById('results-body');
+
+			let allImages = [];
+			let targetImage = '';
+			let currentCategory = '';
+			let timer = null;
+			let secondsPassed = 0;
+
+			const suffixMap = {
+				circles: 'c',
+				squares: 's',
+				triangles: 't'
+			};
+
+			const categoryNames = {
+				circles: 'Круги',
+				squares: 'Квадрати',
+				triangles: 'Трикутники'
+			};
+
+			function getCategoryImages(category) {
+				const suffix = suffixMap[category];
+				const images = [];
+				for (let i = 1; i <= 10; i++) {
+					images.push(`${category}/${i}${suffix}.png`);
+				}
+				return images;
+			}
+
+			function allowDrop(ev) {
+				ev.preventDefault();
+			}
+
+			function handleDragStart(ev) {
+				ev.dataTransfer.setData("text/plain", ev.target.parentElement.dataset.src);
+			}
+
+			function handleDrop(ev) {
+				ev.preventDefault();
+				const draggedSrc = ev.dataTransfer.getData("text/plain");
+				if (draggedSrc === targetImage) {
+					const draggedDiv = document.querySelector(`.square[data-src="${draggedSrc}"]`);
+					draggedDiv.classList.add('hidden');
+					setCurrentImage();
+				} else {
+					alert('Невірно! Картинки перезавантажуються.');
+					allImages = getCategoryImages(currentCategory).sort(() => 0.5 - Math.random()).slice(0, 10);
+					createBoard(allImages);
+					setCurrentImage();
+				}
+			}
+
+			function createBoard(images) {
+				board.innerHTML = '';
+				images.forEach((src) => {
+					const div = document.createElement('div');
+					div.classList.add('square');
+					div.dataset.src = src;
+					const img = document.createElement('img');
+					img.src = `images/${src}`;
+					img.draggable = true;
+					img.addEventListener('dragstart', handleDragStart);
+					div.appendChild(img);
+					board.appendChild(div);
+				});
+			}
+
+			function setCurrentImage() {
+				const visibleImages = Array.from(document.querySelectorAll('.square:not(.hidden)'))
+					.map(div => div.dataset.src);
+				if (visibleImages.length === 0) {
+					clearInterval(timer);
+					alert(`Вітаємо! Ви знайшли всі зображення за ${secondsPassed} секунд.`);
+					currentImage.innerHTML = '';
+					recordResult();
+					return;
+				}
+
+				const randomIndex = Math.floor(Math.random() * visibleImages.length);
+				targetImage = visibleImages[randomIndex];
+
+				currentImage.innerHTML = '';
+				const img = document.createElement('img');
+				img.src = `images/${targetImage}`;
+				currentImage.appendChild(img);
+			}
+
+			function startTimer() {
+				clearInterval(timer);
+				secondsPassed = 0;
+				timerDisplay.textContent = `Час: 0 секунд`;
+				timer = setInterval(() => {
+					secondsPassed++;
+					timerDisplay.textContent = `Час: ${secondsPassed} секунд`;
+				}, 1000);
+			}
+
+			function startGame(category) {
+				currentCategory = category;
+				allImages = getCategoryImages(category).sort(() => 0.5 - Math.random()).slice(0, 10);
+				createBoard(allImages);
+				setCurrentImage();
+				startTimer();
+
+				categoryButtons.style.display = 'none';
+				gameArea.style.display = 'block';
+			}
+
+			function returnToCategorySelect() {
+				clearInterval(timer);
+				board.innerHTML = '';
+				currentImage.innerHTML = '';
+				timerDisplay.textContent = 'Час: 0 секунд';
+				gameArea.style.display = 'none';
+				categoryButtons.style.display = 'block';
+			}
+
+			function recordResult() {
+				const row = document.createElement('tr');
+				row.innerHTML = `
+					<td>${categoryNames[currentCategory]}</td>
+					<td>${secondsPassed}</td>
+				`;
+				resultsBody.appendChild(row);
+			}
+		</script>
+	</body>
+</html>
+
