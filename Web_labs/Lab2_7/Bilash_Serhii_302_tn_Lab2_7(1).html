@@ -1,0 +1,33 @@
+﻿<html>
+    <head>
+        <title>Білаш Сергій 302 - ТН Лабораторна робота №7_1</title>
+        <meta name="keywords" />
+        <meta name="description" />
+    </head>
+
+    <body>
+        <h1>
+            <script>
+                function showCurrentTime() {
+                    const currentDate = new Date();
+
+                    const daysOfWeek = ["неділя", "понеділок", "вівторок", "середа", "четвер", "п’ятниця", "субота"];
+                    const monthsOfYear = ["січня", "лютого", "березня", "квітня", "травня", "червня", "липня", "серпня", "вересня", "жовтня", "листопада", "грудня"];
+
+                    const dayOfWeek = daysOfWeek[currentDate.getDay()];
+                    const day = currentDate.getDate();
+                    const month = monthsOfYear[currentDate.getMonth()];
+                    const year = currentDate.getFullYear();
+                    const hours = String(currentDate.getHours()).padStart(2, '0');
+                    const minutes = String(currentDate.getMinutes()).padStart(2, '0');
+                    const seconds = String(currentDate.getSeconds()).padStart(2, '0');
+
+                    const Time = `${hours}:${minutes}:${seconds}, ${dayOfWeek}, ${day} ${month} ${year} року`;
+                    console.log(Time);
+                }
+                showCurrentTime();
+            </script>
+        </h1>
+    </body>
+
+</html>
