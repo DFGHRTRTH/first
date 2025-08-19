@@ -1,0 +1,48 @@
+﻿<html>
+    <head>
+        <title>Білаш Сергій 302 - ТН Лабораторна робота №5</title>
+        <meta name="keywords" />
+        <meta name="description" />
+        <style>
+            body {
+                font-family: Arial, sans-serif;
+                padding: 30px;
+                background: #f0f0f0;
+            }
+    
+            input, button {
+                padding: 10px;
+                margin: 5px 0;
+            }
+        </style>
+    </head>
+
+    <body>
+        <h2>Введіть число:</h2>
+        <input type="number" id="numberInput" placeholder="Число">
+        <button onclick="calculateSquare()">Обчислити квадрат</button>
+        <p id="result"></p>
+    
+        <script>
+            function calculateSquare() {
+                const number = document.getElementById('numberInput').value;
+    
+                const xhr = new XMLHttpRequest();
+                xhr.open("POST", "/square", true);
+                xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+    
+                xhr.onload = function () {
+                    if (xhr.status === 200) {
+                        const response = JSON.parse(xhr.responseText);
+                        document.getElementById('result').innerText = `Квадрат числа: ${response.square}`;
+                    } else {
+                        document.getElementById('result').innerText = "Помилка при обробці запиту.";
+                    }
+                };
+    
+                xhr.send(JSON.stringify({ number }));
+            }
+        </script>
+    </body>
+</html>
+
