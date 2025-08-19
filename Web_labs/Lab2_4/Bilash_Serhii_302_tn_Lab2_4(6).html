@@ -1,0 +1,52 @@
+﻿<html>
+    <head>
+        <title>Білаш Сергій 302 - ТН Лабораторна робота №4_6</title>
+        <meta name="keywords" />
+        <meta name="description" />
+    </head>
+
+    <body>
+        <h1>
+            <script>
+                document.write("Завдання №6<br>");
+                let n = 0;
+                do {
+                    n = prompt("Завдання №6. Введіть параметр N для розміру масиву ", '');
+                } while (n == 0 || isNaN(n));
+    
+                n = Math.abs(Number(n));
+
+                let array = [];
+                for (let i = 0; i < n; i++) {
+                    array.push(Math.floor(Math.random() * 201) - 100);
+                }
+
+                document.write("Масив: " + array + "<br>");
+
+                let sum = 0;
+                let min = Infinity;
+                let max = -Infinity;
+
+                document.write("Непарні числа: " + "<br>");
+
+                for (let i = 0; i < n; ++i) {
+                    min = Math.min(min, array[i]);
+                    max = Math.max(max, array[i]);
+                    sum += array[i];
+
+                    if (array[i] % 2 !== 0) {
+                        document.write(array[i] + " ");
+                    }
+                }
+                let middle = sum / n;
+
+                document.write("<br>");
+                document.write("Найбільше значення: " + max + "<br>");
+                document.write("Найменше значення: " + min + "<br>");
+                document.write("Загальна сума елементів: " + sum + "<br>");
+                document.write("Середнє арифметичне: " + middle + "<br>");
+            </script>
+        </h1>
+    </body>
+
+</html>
