@@ -1,0 +1,66 @@
+﻿<html>
+    <head>
+        <title>Білаш Сергій 302 - ТН Лабораторна робота №7_2</title>
+        <meta name="keywords" />
+        <meta name="description" />
+    </head>
+
+    <body>
+        <h1>
+            <script>
+                function startGame() {
+                    const randomNumber = Math.floor(Math.random() * 51);
+  
+                    let attempts = 0;
+                    attempts = Number(attempts);
+                    let guess = -54;
+  
+                    function getTemperatureDifference(guess, randomNumber) {
+                        const difference = Math.abs(guess - randomNumber);
+                        if (difference === 0) {
+                            return '';
+                        } else if (difference <= 5) {
+                            return 'гаряче';
+                        } else if (difference <= 10) {
+                            return 'тепло';
+                        } else {
+                            return 'холодно';
+                        }
+                    }
+
+                    while (guess !== randomNumber) {
+                        ++attempts;
+                        const currentDateTime = new Date().toLocaleString();
+    
+                        guess = parseInt(prompt('Вгадай число від 0 до 50:'));
+    
+                        if (isNaN(guess)) {
+                            alert("Будь ласка, введіть правильне число.");
+                            continue;
+                        }
+    
+                        const temperature = getTemperatureDifference(guess, randomNumber);
+  
+                        console.log(`${currentDateTime} Спроба ${attempts}: число ${guess} – ${temperature ? temperature : 'вірно!'}`);
+    
+                        if (guess !== randomNumber) {
+                            alert(`Число ${guess} – не вірно! Ви ${temperature}. Спробуйте ще раз.`);
+                        }
+                    }
+
+                    alert(`За ${attempts} спроб ви вгадали число ${randomNumber}.`);
+                    console.log(`За ${attempts} спроб ви вгадали число ${randomNumber}.`);
+  
+                    const playAgain = confirm('Хочете спробувати ще раз?');
+                    if (playAgain) {
+                        startGame();
+                    } else {
+                        alert('Дякуємо за гру!');
+                    }
+                }
+                startGame();
+            </script>
+        </h1>
+    </body>
+
+</html>
