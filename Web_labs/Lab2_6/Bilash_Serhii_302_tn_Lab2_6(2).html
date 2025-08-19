@@ -1,0 +1,140 @@
+﻿<html>
+    <head>
+        <title>Білаш Сергій 302 - ТН Лабораторна робота №6_2</title>
+        <meta name="keywords" />
+        <meta name="description" />
+    </head>
+
+    <body>
+        <h1>
+            <script>
+                class PowerPlant {
+                    constructor(power) {
+                        this.power = power;
+                    }
+                
+                    getProduction() {
+                        return this.power;
+                    }
+                }
+                
+                class SolarPanel {
+                    constructor(dayPower) {
+                        this.dayPower = dayPower;
+                    }
+                
+                    getProduction(isDay) {
+                        return isDay ? this.dayPower : 0;
+                    }
+                }
+                
+                class House {
+                    constructor(apartments) {
+                        this.apartments = apartments;
+                    }
+                
+                    getConsumption(isDay) {
+                        const perApartment = isDay ? 4 : 1;
+                        return (this.apartments * perApartment) / 1000;
+                    }
+                }
+               
+                class PowerLine {
+                    constructor(capacity, pricePerMW) {
+                        this.capacity = capacity; 
+                        this.pricePerMW = pricePerMW;
+                    }
+                
+                    transfer(power) {
+                        const actualPower = Math.min(Math.abs(power), this.capacity);
+                        const cost = actualPower * this.pricePerMW;
+                        return {
+                            power: power < 0 ? -actualPower : actualPower,
+                            cost: power < 0 ? -cost : cost
+                        };
+                    }
+                }
+                
+                class CityGrid {
+                    constructor() {
+                        this.powerPlants = [];
+                        this.solarPanels = [];
+                        this.houses = [];
+                        this.powerLines = [];
+                    }
+                
+                    addElement(element) {
+                        if (element instanceof PowerPlant) this.powerPlants.push(element);
+                        else if (element instanceof SolarPanel) this.solarPanels.push(element);
+                        else if (element instanceof House) this.houses.push(element);
+                        else if (element instanceof PowerLine) this.powerLines.push(element);
+                    }
+                
+                    calculateBalance(isDay) {
+                        let totalProduction = 0;
+                        let totalConsumption = 0;
+                
+                        this.powerPlants.forEach(p => totalProduction += p.getProduction());
+                        this.solarPanels.forEach(s => totalProduction += s.getProduction(isDay));
+                        this.houses.forEach(h => totalConsumption += h.getConsumption(isDay));
+                
+                        const balance = totalProduction - totalConsumption;
+                        let totalCost = 0;
+                        let remaining = balance;
+                
+                        const sortedLines = this.powerLines.sort((a, b) => isDay
+                            ? (balance > 0 ? b.pricePerMW - a.pricePerMW : a.pricePerMW - b.pricePerMW)
+                            : (balance > 0 ? b.pricePerMW - a.pricePerMW : a.pricePerMW - b.pricePerMW)
+                        );
+                
+                        for (let line of sortedLines) {
+                            if (remaining === 0) break;
+                            const transfer = line.transfer(remaining);
+                            remaining -= transfer.power;
+                            totalCost += transfer.cost;
+                        }
+                
+                        return {
+                            balance: balance,
+                            cost: totalCost
+                        };
+                  }
+                
+                    report() {
+                        const day = this.calculateBalance(true);
+                        const night = this.calculateBalance(false);
+                
+                        console.log("=== День ===");
+                        console.log(`Баланс: ${day.balance.toFixed(2)} МВт`);
+                        console.log(`Витрати: ${day.cost.toFixed(2)} грн`);
+                
+                        console.log("=== Ніч ===");
+                        console.log(`Баланс: ${night.balance.toFixed(2)} МВт`);
+                        console.log(`Витрати: ${night.cost.toFixed(2)} грн`);
+                    }
+                }
+
+                const grid = new CityGrid();
+
+                grid.addElement(new PowerPlant(50));
+                grid.addElement(new PowerPlant(30));
+                
+                grid.addElement(new SolarPanel(5));
+                grid.addElement(new SolarPanel(3));
+                grid.addElement(new SolarPanel(2));
+                
+                
+                grid.addElement(new House(100));
+                grid.addElement(new House(250));
+                
+                grid.addElement(new PowerLine(50, 100));
+                grid.addElement(new PowerLine(30, 120));
+                grid.addElement(new PowerLine(20, 80));
+                
+                grid.report();
+
+            </script>
+        </h1>
+    </body>
+
+</html>
